@@ -7,7 +7,7 @@ Use the main.go file and play with it to understand the cache package.
 
 
 <div>
-	<h1>Creating a new LRU Cache</h1>
+<h1>Creating a new LRU Cache</h1>
 
 	NewLRU:=cache.NewLRUCache(5)
 
@@ -18,13 +18,13 @@ NewLRUCache takes an int for initialising the cache by specifying its max capaci
 
 
 <div>
-	<h1>Put Function</h1>
+<h1>Put Function</h1>
 	NewLRU.Put("hello","there")
 	NewLRU.Put("hey","there")
 </div>
 
 <div>
-	<h1> Get Function</h1>
+<h1> Get Function</h1>
 
 	val,err:=NewLRU.Get(key)
 
@@ -36,7 +36,7 @@ returns an error if there is no such key.
 
 <div>
 
-	<h1> Display</h1>
+<h1> Display</h1>
 
 	NewLRU.Display()
 
