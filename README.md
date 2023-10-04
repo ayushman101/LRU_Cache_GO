@@ -11,9 +11,9 @@ Use the main.go file and play with it to understand the cache package.
 
 	NewLRU:=cache.NewLRUCache(5)
 
-	<p>
-		NewLRUCache takes an int for initialising the cache by specifying its max capacity. 
-	<p>
+<p>
+NewLRUCache takes an int for initialising the cache by specifying its max capacity. 
+<p>
 </div>
 
 
@@ -28,9 +28,9 @@ Use the main.go file and play with it to understand the cache package.
 
 	val,err:=NewLRU.Get(key)
 
-	<p>
-		returns an error if there is no such key. 
-	</p>
+<p>
+returns an error if there is no such key. 
+</p>
 </div>
 
 
@@ -40,8 +40,8 @@ Use the main.go file and play with it to understand the cache package.
 
 	NewLRU.Display()
 
-	<p> 
-		Use the display function to view the entire LRU cache.
-	</p>
+<p> 
+Use the display function to view the entire LRU cache.
+</p>
 </div>
 
