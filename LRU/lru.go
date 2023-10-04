@@ -73,11 +73,9 @@ func (lru *LRUCache) Put(key string, val string) {
 	if _,ok := lru.hash[key] ; ok{
 		
 		lru.remove(key)
-		lru.insert(key,val)
-	} else{
-		lru.insert(key,val)
-        
-	}	
+	}
+
+	lru.insert(key,val)
 	
 	if len(lru.hash)>lru.Capacity {
 		lru.remove(lru.left.next.key)
@@ -90,15 +88,25 @@ func (lru *LRUCache) Get(key string) (string, error){
 
 	Node,ok:=lru.hash[key]
 
-	if ok {
-		
-		lru.remove(key)
-		lru.insert(key,Node.val)
+	if ok {	
+		//Instead of removing and inserting, We just reassign the 
+		//Node to the head of the double linked list.
+
+		Node.pre.next=Node.next
+		Node.next.pre=Node.pre
+
+		Node.next=lru.right
+		Node.pre=lru.right.pre
+
+		lru.right.pre.next=Node
+
+		lru.right.pre=Node
+
 		return Node.val,nil
 	}
 
 	err:= errors.New("Key Not Found")
-	return "",fmt.Errorf(" %s %w",key,err)
+	return "",fmt.Errorf("%w",err)
 }
 
 
