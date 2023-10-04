@@ -1,7 +1,6 @@
 package cache
 
 
-
 type node struct {
 		key string
 		val string
@@ -9,10 +8,11 @@ type node struct {
 		pre *node
 }
 
+
 	
 type LRUCache struct {
 
-	capacity int
+	Capacity int
 	left *node
 	right *node
 
@@ -20,17 +20,20 @@ type LRUCache struct {
 
 }
 
+
+
+
 func NewLRUCache(capacity int) LRUCache {
 	
 	ret := LRUCache{	
-		capacity: capacity,
+		Capacity: capacity,
 		left: &node{},
 		right:&node{},
 		hash: make(map[string]*node),
 	}
 
-	ret.left.next=right
-	ret.right.pre=left
+	ret.left.next=ret.right
+	ret.right.pre=ret.left
 
 	return ret
 }
@@ -60,18 +63,18 @@ func (lru *LRUCache) remove (key string) {
 
 
 
-func (lru *LRUCache) put(key string, val string) {
+func (lru *LRUCache) Put(key string, val string) {
 	
-	if _,ok:=lru.hash[key] ; ok {
+	if _,ok := lru.hash[key] ; ok{
 		
 		lru.remove(key)
 		lru.insert(key,val)
-	}
-
-	else
+	} else{
 		lru.insert(key,val)
-
-	if len(lru.hash)>lru.capacity {
+        
+	}	
+	
+	if len(lru.hash)>lru.Capacity {
 		lru.remove(lru.left.next.key)
 	}
 	
