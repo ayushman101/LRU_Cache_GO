@@ -14,11 +14,12 @@ func main(){
 
 	Newcache.Put("hello ", "there")
 	Newcache.Put("hey","there")
-	val,err:= Newcache.Get("hi")
+	_,err:= Newcache.Get("hey")
 
 	if err!=nil{
 		panic(err)
 	}
 	
-	fmt.Println(val)
+	fmt.Println(Newcache)
+	Newcache.Display()
 }

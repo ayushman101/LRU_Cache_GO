@@ -102,3 +102,13 @@ func (lru *LRUCache) Get(key string) (string, error){
 }
 
 
+
+func (lru *LRUCache) Display() {
+
+	for key,Node:= range lru.hash {
+		
+		fmt.Printf("%s: %s\n",key,Node.val)
+	}
+}
+
+
