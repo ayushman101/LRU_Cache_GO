@@ -74,8 +74,7 @@ func (lru *LRUCache) put(key string, val string) {
 	if len(lru.hash)>lru.capacity {
 		lru.remove(lru.left.next.key)
 	}
-
-
+	
 }
 
 
