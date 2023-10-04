@@ -1,6 +1,11 @@
 package cache
 
 
+import(
+	"fmt"
+	"errors"
+)
+
 type node struct {
 		key string
 		val string
@@ -81,5 +86,19 @@ func (lru *LRUCache) Put(key string, val string) {
 }
 
 
+func (lru *LRUCache) Get(key string) (string, error){
+
+	Node,ok:=lru.hash[key]
+
+	if ok {
+		
+		lru.remove(key)
+		lru.insert(key,Node.val)
+		return Node.val,nil
+	}
+
+	err:= errors.New("Key Not Found")
+	return "",fmt.Errorf(" %s %w",key,err)
+}
 
 
