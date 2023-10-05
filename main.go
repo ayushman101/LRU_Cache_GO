@@ -8,12 +8,12 @@ import (
 
 func main(){
 
-	Newcache:=cache.NewLRUCache(10)
+	Newcache:=cache.NewLRUCache[float64](10)
 
 	fmt.Println(Newcache.Capacity)
 
-	Newcache.Put("hello ", "there")
-	Newcache.Put("hey","there")
+	Newcache.Put("hello",10.01)
+	Newcache.Put("hey",20.222)
 	_,err:= Newcache.Get("hey")
 
 	if err!=nil{

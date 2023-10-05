@@ -4,37 +4,39 @@ package cache
 import(
 	"fmt"
 	"errors"
+	"golang.org/x/exp/constraints"
 )
 
-type node struct {
+type node[T constraints.Ordered] struct {
 		key string
-		val string
-		next *node
-		pre *node
+		//val string
+		val T
+		next *node[T]
+		pre *node[T]
 }
 
 
 	
-type LRUCache struct {
+type LRUCache[T constraints.Ordered] struct {
 
 	Capacity int
-	left *node
-	right *node
+	left *node[T]
+	right *node[T]
 
-	hash map[string]*node
+	hash map[string]*node[T]
 
 }
 
 
 
 
-func NewLRUCache(capacity int) LRUCache {
+func NewLRUCache[T constraints.Ordered](capacity int) LRUCache[T] {
 	
-	ret := LRUCache{	
+	ret := LRUCache[T]{	
 		Capacity: capacity,
-		left: &node{},
-		right:&node{},
-		hash: make(map[string]*node),
+		left: &node[T]{},
+		right:&node[T]{},
+		hash: make(map[string]*node[T]),
 	}
 
 	ret.left.next=ret.right
@@ -44,9 +46,9 @@ func NewLRUCache(capacity int) LRUCache {
 }
 
 
-func (lru *LRUCache) insert (key string, val string ) {
+func (lru *LRUCache[T]) insert (key string, val T ) {
 
-	lru.hash[key]= &node{ 
+	lru.hash[key]= &node[T]{ 
 		key: key, 
 		val:val, 
 		next: lru.right,
@@ -58,7 +60,7 @@ func (lru *LRUCache) insert (key string, val string ) {
 }
 
 
-func (lru *LRUCache) remove (key string) {
+func (lru *LRUCache[T]) remove (key string) {
 
 	lru.hash[key].pre.next=lru.hash[key].next
 	lru.hash[key].next.pre=lru.hash[key].pre
@@ -68,7 +70,7 @@ func (lru *LRUCache) remove (key string) {
 
 
 
-func (lru *LRUCache) Put(key string, val string) {
+func (lru *LRUCache[T]) Put(key string, val T) {
 	
 	if _,ok := lru.hash[key] ; ok{
 		
@@ -84,7 +86,7 @@ func (lru *LRUCache) Put(key string, val string) {
 }
 
 
-func (lru *LRUCache) Get(key string) (string, error){
+func (lru *LRUCache[T]) Get(key string) (T, error){
 
 	Node,ok:=lru.hash[key]
 
@@ -106,16 +108,17 @@ func (lru *LRUCache) Get(key string) (string, error){
 	}
 
 	err:= errors.New("Key Not Found")
-	return "",fmt.Errorf("%w",err)
+	var t T
+	return t,fmt.Errorf("%w",err)
 }
 
 
 
-func (lru *LRUCache) Display() {
+func (lru *LRUCache[T]) Display() {
 
 	for key,Node:= range lru.hash {
 		
-		fmt.Printf("%s: %s\n",key,Node.val)
+		fmt.Printf("%s: %v\n",key,Node.val)
 	}
 }
 
