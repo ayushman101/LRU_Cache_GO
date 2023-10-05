@@ -7,36 +7,36 @@ import(
 	"golang.org/x/exp/constraints"
 )
 
-type node[T constraints.Ordered] struct {
-		key string
+type node[K,T constraints.Ordered] struct {
+		key K
 		//val string
 		val T
-		next *node[T]
-		pre *node[T]
+		next *node[K,T]
+		pre *node[K,T]
 }
 
 
 	
-type LRUCache[T constraints.Ordered] struct {
+type LRUCache[K,T constraints.Ordered] struct {
 
 	Capacity int
-	left *node[T]
-	right *node[T]
+	left *node[K,T]
+	right *node[K,T]
 
-	hash map[string]*node[T]
+	hash map[K]*node[K,T]
 
 }
 
 
 
 
-func NewLRUCache[T constraints.Ordered](capacity int) LRUCache[T] {
+func NewLRUCache[K,T constraints.Ordered](capacity int) LRUCache[K,T] {
 	
-	ret := LRUCache[T]{	
+	ret := LRUCache[K,T]{	
 		Capacity: capacity,
-		left: &node[T]{},
-		right:&node[T]{},
-		hash: make(map[string]*node[T]),
+		left: &node[K,T]{},
+		right:&node[K,T]{},
+		hash: make(map[K]*node[K,T]),
 	}
 
 	ret.left.next=ret.right
@@ -46,9 +46,9 @@ func NewLRUCache[T constraints.Ordered](capacity int) LRUCache[T] {
 }
 
 
-func (lru *LRUCache[T]) insert (key string, val T ) {
+func (lru *LRUCache[K,T]) insert (key K, val T ) {
 
-	lru.hash[key]= &node[T]{ 
+	lru.hash[key]= &node[K,T]{ 
 		key: key, 
 		val:val, 
 		next: lru.right,
@@ -60,7 +60,7 @@ func (lru *LRUCache[T]) insert (key string, val T ) {
 }
 
 
-func (lru *LRUCache[T]) remove (key string) {
+func (lru *LRUCache[K,T]) remove (key K) {
 
 	lru.hash[key].pre.next=lru.hash[key].next
 	lru.hash[key].next.pre=lru.hash[key].pre
@@ -70,7 +70,7 @@ func (lru *LRUCache[T]) remove (key string) {
 
 
 
-func (lru *LRUCache[T]) Put(key string, val T) {
+func (lru *LRUCache[K,T]) Put(key K, val T) {
 	
 	if _,ok := lru.hash[key] ; ok{
 		
@@ -86,7 +86,7 @@ func (lru *LRUCache[T]) Put(key string, val T) {
 }
 
 
-func (lru *LRUCache[T]) Get(key string) (T, error){
+func (lru *LRUCache[K,T]) Get(key K) (T, error){
 
 	Node,ok:=lru.hash[key]
 
@@ -114,7 +114,7 @@ func (lru *LRUCache[T]) Get(key string) (T, error){
 
 
 
-func (lru *LRUCache[T]) Display() {
+func (lru *LRUCache[K,T]) Display() {
 
 	for key,Node:= range lru.hash {
 		

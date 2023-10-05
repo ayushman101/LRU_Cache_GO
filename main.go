@@ -8,7 +8,7 @@ import (
 
 func main(){
 
-	Newcache:=cache.NewLRUCache[float64](10)
+	Newcache:=cache.NewLRUCache[string,float64](10)
 
 	fmt.Println(Newcache.Capacity)
 
